@@ -1,6 +1,5 @@
 #pragma once
 
-#include <GL/glew.h>
 #include "game_math.h"
 #include "text_renderer.h"
 
@@ -16,6 +15,9 @@ private:
 	void initialize();
 
 public:
+
+	static const unsigned int COLOR_BUFFER;
+	static const unsigned int TRIANGLES;
 	static RenderManager* getInstance();
 
 	~RenderManager();

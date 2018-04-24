@@ -1,6 +1,10 @@
 #include "render_manager.h"
 
+#include <GL/glew.h>
+
 RenderManager* RenderManager::instance = nullptr;
+const unsigned int RenderManager::COLOR_BUFFER = GL_COLOR_BUFFER_BIT;
+const unsigned int RenderManager::TRIANGLES = GL_TRIANGLES;
 
 RenderManager::~RenderManager(){
 

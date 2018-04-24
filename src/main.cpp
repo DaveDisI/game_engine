@@ -26,7 +26,7 @@ int main(int argc, char** argv){
 	while(!iomgr->keys[IOManager::ESC_KEY] && !iomgr->QUIT){
 		startTime = iomgr->getTime();
 		iomgr->processEvents();
-		rdrmgr->clear(GL_COLOR_BUFFER_BIT);
+		rdrmgr->clear(RenderManager::COLOR_BUFFER);
 
 		txtrdr->prepare();
 		sprintf(fpsStr, "%d", frameRate);

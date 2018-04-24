@@ -24,7 +24,10 @@ endif
 
 
 
-all:
+all: compile
+	$(CC) $(FLAGS) $(OUT) $(SRC) $(OBJLOC)/*.o $(INC) $(LIBLOC) $(LIB) $(FWLOC) $(FW)
+
+main:
 	$(CC) $(FLAGS) $(OUT) $(SRC) $(OBJLOC)/*.o $(INC) $(LIBLOC) $(LIB) $(FWLOC) $(FW)
 
 compile:
