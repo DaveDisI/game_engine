@@ -1,54 +1,15 @@
 #include "text_renderer.h"
 #include <GL/glew.h>
 
-#include <map>
 #include <string>
 
 #include "io_manager.h"
-#include "game_math.h"
 #include "shader_compiler.h"
 
 #include "ft2build.h"
 #include FT_FREETYPE_H
 
 TextRenderer* TextRenderer::instance = nullptr;
-
-const GLchar* textvs = "#version 330 core\n"
-    "layout (location = 0) in vec4 position;"
-    "uniform mat4 mvpMatrix;"
-    "out vec2 Texcoord;"
-    "void main()"
-    "{"
-    "    Texcoord = position.zw;"
-    "    gl_Position = mvpMatrix * vec4(position.xy, 0.0, 1.0);"
-    "}";
-const GLchar* textfs = "#version 330 core\n"
-    "in vec2 Texcoord;"
-    "out vec4 outColor;"
-    "uniform vec4 textColor;"
-    "uniform sampler2D text;"
-    "void main()"
-    "{"
-    "	 vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, Texcoord).r);"
-    "    outColor = textColor * sampled;"
-    "}";
-
-FT_Library  library;
-FT_Face face;
-
-GLuint textTexture;
-
-struct Character {
-    GLuint TextureID;   // ID handle of the glyph texture
-    vec2 Size;    // Size of glyph
-    vec2 Bearing;  // Offset from baseline to left/top of glyph
-    long Advance;    // Horizontal offset to advance to next glyph
-};
-
-std::map<GLchar, Character> Characters;
-GLuint textShader, textVao, textVbo, projMatID, colorID;
-vec4 textColor = vec4(0, 0, 0, 1);
-mat4 textProjMat = mat4(1);
 
 TextRenderer::~TextRenderer(){
 
@@ -80,11 +41,34 @@ TextRenderer::TextRenderer(){
 }
 
 void TextRenderer::initialize(){
+  const GLchar* textvs = "#version 330 core\n"
+      "layout (location = 0) in vec4 position;"
+      "uniform mat4 mvpMatrix;"
+      "out vec2 Texcoord;"
+      "void main()"
+      "{"
+      "    Texcoord = position.zw;"
+      "    gl_Position = mvpMatrix * vec4(position.xy, 0.0, 1.0);"
+      "}";
+  const GLchar* textfs = "#version 330 core\n"
+      "in vec2 Texcoord;"
+      "out vec4 outColor;"
+      "uniform vec4 textColor;"
+      "uniform sampler2D text;"
+      "void main()"
+      "{"
+      "	 vec4 sampled = vec4(1.0, 1.0, 1.0, texture(text, Texcoord).r);"
+      "    outColor = textColor * sampled;"
+      "}";
+
 	textShader = compileShaderVF(textvs, textfs);
 	glUseProgram(textShader);
 	projMatID = glGetUniformLocation(textShader, "mvpMatrix");
 	colorID = glGetUniformLocation(textShader, "textColor");
 	glUniform4fv(colorID, 1, &textColor.v[0]);
+
+  FT_Library  library;
+  FT_Face face;
 
 	if (FT_Init_FreeType( &library )){
 		IOManager::getInstance()->displayMessageBox("FREE FONT ERROR", "Error initializing freetype", 0);

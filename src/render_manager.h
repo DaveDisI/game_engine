@@ -1,6 +1,8 @@
 #pragma once
 
+#include "game_camera.h"
 #include "game_math.h"
+#include "sprite_renderer.h"
 #include "text_renderer.h"
 
 class RenderManager{

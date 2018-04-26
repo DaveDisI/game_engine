@@ -9,7 +9,8 @@ SRC=./src/main.cpp
 OBJ=../../src/io_manager.cpp \
     ../../src/render_manager.cpp \
 		../../src/text_renderer.cpp \
-		../../src/game_math.cpp
+		../../src/game_math.cpp \
+		../../src/sprite_renderer.cpp
 
 ifeq ($(OS), Darwin)
 	LIBLOC=-L ./lib/mac/
@@ -44,3 +45,6 @@ txtrdr:
 
 gmath:
 		cd $(OBJLOC); $(CC) $(CFLAGS) ../../src/game_math.cpp $(CINC)
+
+sptrdr:
+		cd $(OBJLOC); $(CC) $(CFLAGS) ../../src/sprite_renderer.cpp $(CINC)

@@ -1,5 +1,6 @@
 #include "io_manager.h"
 
+#include <stdio.h>
 #include <SDL2/SDL.h>
 
 IOManager* IOManager::instance;
@@ -95,6 +96,7 @@ IOManager* IOManager::getInstance(){
 }
 
 bool IOManager::initialize(){
+	if(!AXIS_MAX && !AXIS_MIN){ printf(""); } //stupid warning suppressor
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		printf("Unable to initialize SDL: %s", SDL_GetError());

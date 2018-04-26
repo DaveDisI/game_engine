@@ -1,7 +1,8 @@
 #include "stdio.h"
-
 #include "io_manager.h"
 #include "render_manager.h"
+
+#include "sprite_renderer.h"
 
 int main(int argc, char** argv){
 	IOManager* iomgr = IOManager::getInstance();
@@ -13,6 +14,10 @@ int main(int argc, char** argv){
 	rdrmgr->setClearColor(0.2, 0.4, 0.6, 1);
 
 	TextRenderer* txtrdr = rdrmgr->getTextRendererInstance();
+
+	SpriteRenderer* sptrdr = SpriteRenderer::getInstance();
+	Camera2D cam;
+	cam.setProjection(-1, 1, -1, 1);
 
 	long startTime = 0, endTime = 0;
 	float deltaTime = 0;
@@ -27,6 +32,10 @@ int main(int argc, char** argv){
 		startTime = iomgr->getTime();
 		iomgr->processEvents();
 		rdrmgr->clear(RenderManager::COLOR_BUFFER);
+
+		sptrdr->prepare();
+		sptrdr->render(cam);
+
 
 		txtrdr->prepare();
 		sprintf(fpsStr, "%d", frameRate);
